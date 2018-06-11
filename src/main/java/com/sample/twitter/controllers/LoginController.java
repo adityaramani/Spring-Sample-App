@@ -1,5 +1,8 @@
 package com.sample.twitter.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.sample.twitter.dao.CommentDaoImpl;
 import com.sample.twitter.dao.UserDaoImpl;
 import com.sample.twitter.model.CommentBean;
@@ -29,8 +32,6 @@ public class LoginController {
     @Autowired
     GoogleProvider googleProvider;
 
-    @Autowired
-    private HttpServletRequest request;
     private static final UserDaoImpl userDao =  new UserDaoImpl();
     private static final CommentDaoImpl commentDao =  new CommentDaoImpl();
 
@@ -51,7 +52,10 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
         UserDetails user;
+        System.out.println(userDao);
+
         user = userDao.getUserByName(bean.getEmail());
+
         if (user.getUsername() != bean.getEmail())
         {   user.setUsername(bean.getEmail()) ;
             userDao.addUser(user);
@@ -76,18 +80,27 @@ public class LoginController {
     }
 
 
-    @RequestMapping(value = "/retieve/allComments", method = RequestMethod.GET)
+    @RequestMapping(value = "/retrieve/allComments", method = RequestMethod.GET)
     @ResponseBody
-    public List<CommentDetails> getAllComments(){
+    public String getAllComments(){
 
        List<CommentBean> commentBeansList =  commentDao.getAllComments();
        List<CommentDetails> commentDetailsList = new ArrayList<CommentDetails>();
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
-        for(CommentBean commentBean : commentBeansList){
+       for(CommentBean commentBean : commentBeansList){
+                    System.out.println(commentBean.getComment());
                    CommentDetails details = new CommentDetails(commentBean );
-                    commentDetailsList.add(details);
-        }
-        return commentDetailsList;
+//                    commentDetailsList.add(details);
+                    try {
+                         String val =  ow.writeValueAsString(details);
+                        return val;
+                    }
+                    catch (JsonProcessingException e){
+                        e.printStackTrace();
+                    }
+       }
+        return "";
     }
 
 }

@@ -116,7 +116,7 @@ p {
 }
 </style>
 </head>
-<body onload="loadComments">
+<body onload="loadComments()">
 <div class="comments">
     <div class="comment-wrap">
         <div class="photo">
@@ -154,9 +154,17 @@ p {
 
 <script>
 
-
     function loadComments(){
         console.log("loading comments");
+
+        $.ajax({
+    type: "GET",
+  url: "retrieve/allComments",
+  cache: false,
+  success: function(data){
+    console.log(data);
+  }
+});
 
     }
 </script>
