@@ -54,10 +54,10 @@ public class CommentDaoImpl implements CommentDao{
     public ArrayList<CommentBean> getAllComments(){
         entityTransaction.begin();
 
-        Query query = entityManager.createQuery("select * from COMMENTS;");
+        Query query = entityManager.createQuery("select * from COMMENTS;", CommentBean.class);
         List allCommentsList = query.getResultList();
 
-        ArrayList <CommentBean> commentBeanArrayList = new ArrayList<>(allCommentsList);
+        ArrayList <CommentBean> commentBeanArrayList = new ArrayList<CommentBean>(allCommentsList);
 
         entityTransaction.commit();
 
