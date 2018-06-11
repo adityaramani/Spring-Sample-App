@@ -7,12 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/*
+
 @Repository
 public interface CommentRepo extends JpaRepository<UserBean, Integer> {
 
     // custom query to search to blog post by title or content
-    List<UserBean> findByTitleContainingOrContentContaining(String text, String textAgain);
 
 }
-*/

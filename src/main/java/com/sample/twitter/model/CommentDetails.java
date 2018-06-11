@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDetails implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     CommentBean comment;
     private ArrayList<Long> repliesList;

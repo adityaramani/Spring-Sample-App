@@ -1,5 +1,7 @@
 package com.sample.twitter.controllers;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -82,25 +84,21 @@ public class LoginController {
 
     @RequestMapping(value = "/retrieve/allComments", method = RequestMethod.GET)
     @ResponseBody
-    public String getAllComments(){
+    public List<CommentDetails>  getAllComments(){
 
        List<CommentBean> commentBeansList =  commentDao.getAllComments();
        List<CommentDetails> commentDetailsList = new ArrayList<CommentDetails>();
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
        for(CommentBean commentBean : commentBeansList){
                     System.out.println(commentBean.getComment());
                    CommentDetails details = new CommentDetails(commentBean );
-//                    commentDetailsList.add(details);
-                    try {
-                         String val =  ow.writeValueAsString(details);
-                        return val;
-                    }
-                    catch (JsonProcessingException e){
-                        e.printStackTrace();
-                    }
+                    commentDetailsList.add(details);
+
        }
-        return "";
+//       model.addAttribute("list", commentDetailsList);
+        return commentDetailsList;
     }
 
 }
+
+
