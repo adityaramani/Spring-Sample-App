@@ -14,11 +14,12 @@ public class CommentBean implements Serializable {
 
 
     @NotNull
+    @Column(name="username")
     private String userID;
 
     @Id
-    @NotNull
     @GeneratedValue
+    @Column(name="comment_id")
     private Long id;
 
     @Column(name = "comment")

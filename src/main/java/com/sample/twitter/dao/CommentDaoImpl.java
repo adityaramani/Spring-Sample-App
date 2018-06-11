@@ -5,7 +5,6 @@ import com.sample.twitter.model.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CommentDaoImpl implements CommentDao{
