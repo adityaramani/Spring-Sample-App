@@ -7,6 +7,7 @@ import com.sample.twitter.model.CommentDetails;
 import com.sample.twitter.model.UserBean;
 import com.sample.twitter.model.UserDetails;
 import com.sample.twitter.provider.GoogleProvider;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 public class LoginController {
@@ -50,6 +54,7 @@ public class LoginController {
         {   user.setUsername(bean.getEmail()) ;
             userDao.addUser(user);
         }
+
         return  "home/success";
     }
 
@@ -66,6 +71,16 @@ public class LoginController {
 
         commentDao.addComment(commentDetails.getCommentBean());
         return  "home/success";
+    }
+
+
+    @RequestMapping(value = "/retieve/allComments", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CommentDetails> getAllComments(){
+
+       List<CommentBean> commentBeansList =  commentDao.getAllComments();
+
+
     }
 
 }
