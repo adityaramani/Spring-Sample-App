@@ -33,12 +33,13 @@ public class LoginController {
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String loginSuccess( Model model){
+        userDao = new UserDaoImpl();
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
         UserDetails user =  new UserDetails();
-        userDao.listUsers();
-//     userService.addUser(user);
-
+        user.setUsername("Adityas") ;
+        userDao.addUser(user);
+        userDao.getUserByName(user.getUsername());
         return  "home/success";
     }
 
