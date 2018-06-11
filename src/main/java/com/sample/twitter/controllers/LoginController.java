@@ -73,18 +73,16 @@ public class LoginController {
         googleProvider.getGoogleUserData(model, bean);
 
         UserDetails userDetails =  new UserDetails(bean.getEmail());
-
-        CommentDetails commentDetails = new CommentDetails(commentBean);
-        commentDetails.getCommentBean().setUser(userDetails);
-
-        commentDao.addComment(commentDetails.getCommentBean());
+        commentBean.setUser(userDetails);
+        commentBean.setParentComment(null);
+        commentDao.addComment(commentBean);
         return  "home/success";
     }
 
 
     @RequestMapping(value = "/retrieve/allComments", method = RequestMethod.GET)
     @ResponseBody
-    public List<CommentDetails>  getAllComments(){
+    public List<CommentBean>  getAllComments(){
 
        List<CommentBean> commentBeansList =  commentDao.getAllComments();
        List<CommentDetails> commentDetailsList = new ArrayList<CommentDetails>();
