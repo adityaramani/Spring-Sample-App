@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -79,8 +81,13 @@ public class LoginController {
     public List<CommentDetails> getAllComments(){
 
        List<CommentBean> commentBeansList =  commentDao.getAllComments();
+       List<CommentDetails> commentDetailsList = new ArrayList<CommentDetails>();
 
-
+        for(CommentBean commentBean : commentBeansList){
+                   CommentDetails details = new CommentDetails(commentBean );
+                    commentDetailsList.add(details);
+        }
+        return commentDetailsList;
     }
 
 }
