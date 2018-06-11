@@ -31,7 +31,6 @@ public class GoogleProvider   {
         }
 
         populateUserDetailsFromGoogle(userForm);
-        System.out.println(userForm.getFirstName());
         model.addAttribute("loggedInUser",userForm);
         return "user";
     }

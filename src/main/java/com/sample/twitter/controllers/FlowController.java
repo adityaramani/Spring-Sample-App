@@ -18,7 +18,6 @@ public class FlowController extends ConnectController {
 
     @Override
     protected String connectedView(String providerId) {
-        System.out.println("Provider iD =  " + providerId);
         return "redirect:/success";
     }
 

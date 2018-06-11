@@ -3,13 +3,10 @@ package com.sample.twitter.dao;
 import java.util.List;
 
 import com.sample.twitter.model.UserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -55,7 +52,7 @@ public class UserDaoImpl implements UserDao {
         em.getTransaction().begin();
         UserDetails user = em.find(UserDetails.class,name );
         em.getTransaction().commit();
-        System.out.println(user.getUsername());
+//        System.out.println(user.getUsername());
 
         return user;
     }
