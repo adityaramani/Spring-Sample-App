@@ -29,10 +29,13 @@ public class CommentBean implements Serializable {
     @Column(name = "likes")
     private int likes;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name="parent_comment_id")
+    private CommentBean parentComment;
 
-    public void setComment(String comment){
-        this.comment = comment;
-    }
+    @OneToMany(mappedBy = "parentComment")
+    private List<CommentBean> replies;
+
 
     public UserDetails getUser() {
         return user;
@@ -42,7 +45,43 @@ public class CommentBean implements Serializable {
         this.user = user;
     }
 
-    public String getComment(){
-        return  this.comment;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public CommentBean getParentComment() {
+        return parentComment;
+    }
+
+    public void setParentComment(CommentBean parentComment) {
+        this.parentComment = parentComment;
+    }
+
+    public List<CommentBean> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<CommentBean> replies) {
+        this.replies = replies;
     }
 }
