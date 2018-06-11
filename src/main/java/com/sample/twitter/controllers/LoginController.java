@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.sample.twitter.dao.CommentDaoImpl;
 import com.sample.twitter.dao.UserDaoImpl;
 import com.sample.twitter.model.CommentBean;
-import com.sample.twitter.model.CommentDetails;
 import com.sample.twitter.model.UserBean;
 import com.sample.twitter.model.UserDetails;
 import com.sample.twitter.provider.GoogleProvider;
@@ -72,35 +71,17 @@ public class LoginController {
 
         UserDetails userDetails =  new UserDetails(bean.getEmail());
 
-        CommentDetails commentDetails = new CommentDetails(commentBean);
-        commentDetails.getCommentBean().setUser(userDetails);
+        commentBean.setUser(userDetails);
+        commentBean.setParentComment(null);
 
-        commentDao.addComment(commentDetails.getCommentBean());
+        commentDao.addComment(commentBean);
+
         return  "home/success";
     }
 
 
     @RequestMapping(value = "/retrieve/allComments", method = RequestMethod.GET)
     @ResponseBody
-    public String getAllComments(){
-
-       List<CommentBean> commentBeansList =  commentDao.getAllComments();
-       List<CommentDetails> commentDetailsList = new ArrayList<CommentDetails>();
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
-       for(CommentBean commentBean : commentBeansList){
-                    System.out.println(commentBean.getComment());
-                   CommentDetails details = new CommentDetails(commentBean );
-//                    commentDetailsList.add(details);
-                    try {
-                         String val =  ow.writeValueAsString(details);
-                        return val;
-                    }
-                    catch (JsonProcessingException e){
-                        e.printStackTrace();
-                    }
-       }
-        return "";
-    }
+    public String getAllComments(){}
 
 }
