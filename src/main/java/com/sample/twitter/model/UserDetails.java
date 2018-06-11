@@ -22,4 +22,11 @@ public class UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public UserDetails(){
+        username =  new String("temp-user");
+    }
+    public UserDetails(String username) {
+        this.username = username;
+    }
 }

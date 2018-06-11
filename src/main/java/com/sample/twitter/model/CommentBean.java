@@ -14,8 +14,9 @@ public class CommentBean implements Serializable {
 
 
     @NotNull
-    @Column(name="username")
-    private String userID;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private UserDetails user;
 
     @Id
     @GeneratedValue
@@ -29,18 +30,19 @@ public class CommentBean implements Serializable {
     private int likes;
 
 
-    public void setUserID(String userID){
-        this.userID = userID;
-    }
-
     public void setComment(String comment){
         this.comment = comment;
     }
 
+    public UserDetails getUser() {
+        return user;
+    }
+
+    public void setUser(UserDetails user) {
+        this.user = user;
+    }
+
     public String getComment(){
         return  this.comment;
-    }
-    public  String getUserID(){
-        return this.userID;
     }
 }

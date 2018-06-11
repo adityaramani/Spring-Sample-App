@@ -22,13 +22,9 @@ public class CommentDaoImpl implements CommentDao{
     }
 
     @Override
-    public void addComment(UserDetails userDetails, String comment){
+    public void addComment(CommentBean commentBean){
 
 
-        CommentBean commentBean = new CommentBean();
-
-        commentBean.setUserID(userDetails.getUsername());
-        commentBean.setComment(comment);
 
         entityTransaction.begin();
 

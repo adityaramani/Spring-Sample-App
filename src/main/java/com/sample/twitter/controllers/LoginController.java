@@ -1,5 +1,6 @@
 package com.sample.twitter.controllers;
 
+import com.sample.twitter.dao.CommentDaoImpl;
 import com.sample.twitter.dao.UserDaoImpl;
 import com.sample.twitter.model.CommentBean;
 import com.sample.twitter.model.CommentDetails;
@@ -25,7 +26,7 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
     private static final UserDaoImpl userDao =  new UserDaoImpl();
-//    private static final CommentDaoImpl commentDao=  new CommentDaoImpl();
+    private static final CommentDaoImpl commentDao =  new CommentDaoImpl();
 
 
 
@@ -54,14 +55,16 @@ public class LoginController {
 
 
     @RequestMapping(value = "/create/comment", method = RequestMethod.POST)
-    public String newComment(@ModelAttribute("commentForm")CommentDetails comment, Model model) {
+    public String newComment(@ModelAttribute("commentForm")CommentBean commentBean, Model model) {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
 
-        comment.setUserId(bean.getEmail());
+        UserDetails userDetails =  new UserDetails(bean.getEmail());
 
-        System.out.println(comment.getComment());
+        CommentDetails commentDetails = new CommentDetails(commentBean);
+        commentDetails.getCommentBean().setUser(userDetails);
 
+        commentDao.addComment(commentDetails.getCommentBean());
         return  "home/success";
     }
 

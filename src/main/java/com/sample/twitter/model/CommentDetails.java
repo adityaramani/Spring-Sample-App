@@ -5,42 +5,16 @@ import java.util.List;
 
 public class CommentDetails {
 
-    private Long id;
-    private String userId;
-    private String comment;
-    private int likes;
+    CommentBean comment;
     private ArrayList<Long> repliesList;
 
-    public CommentDetails() {
-        repliesList = new ArrayList<Long>();
+    public CommentDetails(CommentBean comment) {
+        this.comment = comment;
+        this.repliesList = new ArrayList<Long>();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public List<Long> getReplyIds() {
-        return repliesList;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public CommentBean getCommentBean() {
+        return comment;
     }
 
     public void setReplyIds(ArrayList<Long> repliesList) {
@@ -51,11 +25,4 @@ public class CommentDetails {
         repliesList.add(replyID);
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 }

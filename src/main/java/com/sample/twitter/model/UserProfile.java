@@ -1,4 +1,4 @@
-package com.sample.twitter.model;
+/*package com.sample.twitter.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -38,3 +38,4 @@ public class UserProfile {
                 '}';
     }
 }
+*/

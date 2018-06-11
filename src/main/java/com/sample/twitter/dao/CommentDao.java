@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CommentDao {
 
-    public void addComment(UserDetails userDetails, String comment);
+    public void addComment(CommentBean commentBean);
 
     public CommentBean getCommentById(long id);
 
