@@ -1,8 +1,10 @@
-package com.sample.twitter.service;
+/*package com.sample.twitter.service;
 
 import java.util.List;
 
+import com.sample.twitter.dao.UserDaoImpl;
 import com.sample.twitter.model.UserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import  com.sample.twitter.dao.UserDao;
@@ -10,8 +12,12 @@ import  com.sample.twitter.dao.UserDao;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    @Autowired
     private UserDao userDao;
+
+//    public UserServiceImpl(){
+//        this.setUserDAO(new UserDaoImpl());
+//    }
 
     public void setUserDAO(UserDao UserDAO) {
         this.userDao = UserDAO;
@@ -49,3 +55,4 @@ public class UserServiceImpl implements UserService {
 
 
 }
+*/

@@ -1,10 +1,9 @@
-package com.sample.twitter.service;
+/*package com.sample.twitter.service;
 
 
 import com.sample.twitter.model.UserDetails;
 
 import java.util.List;
-
 
 public interface UserService {
 
@@ -16,3 +15,4 @@ public interface UserService {
 
 }
 
+*/
