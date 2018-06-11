@@ -5,6 +5,7 @@ import com.sample.twitter.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
+    @Transactional
     public void addUser(User p) {
        userDao.save(p);
     }
@@ -22,6 +24,7 @@ public class UserService {
         //TODO
     }
 
+    @Transactional
     public List<User> listUsers(){
         return userDao.findAll();
     }
@@ -31,6 +34,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public User getUserByName(String name) {
         User userDetails = userDao.findOne(name);
 

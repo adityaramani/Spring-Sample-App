@@ -44,8 +44,8 @@ public class LoginController {
         googleProvider.getGoogleUserData(model, bean);
         User user;
 
-        userService.listUsers();
-        /*
+//        userService.listUsers();
+
 
         user = userService.getUserByName(bean.getEmail());
 
@@ -53,7 +53,7 @@ public class LoginController {
         {   user.setUsername(bean.getEmail()) ;
             userService.addUser(user);
         }
-*/
+
         return  "home/success";
     }
 
