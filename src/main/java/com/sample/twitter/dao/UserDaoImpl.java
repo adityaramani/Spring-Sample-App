@@ -1,15 +1,13 @@
 package com.sample.twitter.dao;
 
-import java.util.List;
-
 import com.sample.twitter.model.UserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
+import java.util.List;
+
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -18,18 +16,16 @@ public class UserDaoImpl implements UserDao {
     private EntityManagerFactory factory;
 
     public UserDaoImpl(){
+
        if (factory== null){
            factory = Persistence.createEntityManagerFactory("USER");
            em = factory.createEntityManager();
-
         }
     }
 
     @Override
     public void addUser(UserDetails p) {
-
         em.getTransaction().begin();
-//          em.createQuery("INSERT into USER  (username) values (\""+ p.getUsername()+ "\");").getFirstResult();
         em.persist(p);
         em.getTransaction().commit();
     }
