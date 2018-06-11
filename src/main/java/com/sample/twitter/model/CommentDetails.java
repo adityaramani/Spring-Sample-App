@@ -1,9 +1,10 @@
 package com.sample.twitter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentDetails {
+public class CommentDetails implements Serializable {
 
     CommentBean comment;
     private ArrayList<Long> repliesList;

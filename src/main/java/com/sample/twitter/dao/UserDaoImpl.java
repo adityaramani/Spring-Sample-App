@@ -48,10 +48,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserDetails getUserByName(String name) {
 
+        System.out.println(em);
         em.getTransaction().begin();
         UserDetails user = em.find(UserDetails.class,name );
         em.getTransaction().commit();
-        System.out.println(user.getUsername());
+
+        if (user == null)
+            user = new UserDetails();
 
         return user;
     }
