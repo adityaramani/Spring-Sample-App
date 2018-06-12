@@ -5,10 +5,10 @@
 
 <head>
 
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
 </head>
@@ -46,6 +46,10 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 p {
   line-height: 1.3125rem;
+}
+
+#replying-to-comment{
+    display : none;
 }
 
 .comments {
@@ -118,6 +122,11 @@ p {
 .comment-actions li:hover {
   color: #0095ff;
 }
+
+
+#reply-form{
+display : none;
+}
 </style>
 
 <body>
@@ -135,21 +144,6 @@ p {
     </div>
 
 
-    <div class="comment-wrap">
-        <div class="comment-block">
-            <div class="photo">
-                <div class="avatar" style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')"></div>
-            </div>
-            <p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis totam.</p>
-            <div class="bottom-comment">
-                <div class="comment-date">Aug 23, 2014 @ 10:32 AM</div>
-                <ul class="comment-actions">
-                    <li class="complain">Complain</li>
-                    <li class="reply">Reply</li>
-                </ul>
-            </div>
-        </div>
-    </div>
 
     <div class="comment-wrap"  th:each="comment : ${allComments}" >
         <div class="comment-block">
@@ -157,12 +151,13 @@ p {
         <div class="photo">
             <div class="avatar" style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')" th:title = ${comment.user.username}></div>
         </div>
+        <p th:if ="${comment.parentComment != null}" th:text = "  ${'Replying you ->'  +  comment.parentComment.comment}"> Replying to</p>
         <p class="comment-text" th:text="${comment.comment}"></p>
         <div class="bottom-comment">
             <div class="comment-date">Just Now</div>
             <ul class="comment-actions">
                 <li class="complain">Complain</li>
-                <li class="reply" th:id = ${comment.id}>Reply</li>
+                <li class="reply" th:id = ${comment.id} onclick="showReplyBox(event)">Reply</li>
             </ul>
         </div>
         </div>
@@ -170,8 +165,37 @@ p {
     </div>
 
 
+
+<div id="reply-form">
+    <form action = "/create/comment" method="post" modelAttribute = "commentForm">
+        <textarea name="comment" id="reply-text" cols="30" rows="3" placeholder="Add reply..."></textarea>
+        <input type="number" value="" id="replying-to-comment" name="parentComment">
+        <input type="submit" value="Submit">
+    </form>
+
+</div>
+
 </div>
 
 
 
-</body></html>
+
+</body>
+
+
+<script>
+
+    function showReplyBox(event){
+
+        $('#reply-form').css("display", "block")
+        console.log(event);
+        console.log(event.currentTarget.id);
+        console.log(event.target.id);
+        $('#replying-to-comment').attr("value", event.currentTarget.id);
+    }
+
+
+
+</script>
+
+</html>

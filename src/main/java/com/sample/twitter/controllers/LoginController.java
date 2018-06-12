@@ -72,9 +72,13 @@ public class LoginController {
         googleProvider.getGoogleUserData(model, bean);
 
         User userDetails =  new User(bean.getEmail());
+        if(commentBean.getParentComment() != null)
+        System.out.println(commentBean.getParentComment().getComment());
+        else
+            System.out.println("Creating new comment");
 
         commentBean.setUser(userDetails);
-        commentBean.setParentComment(null);
+//        commentBean.setParentComment(null);
 
         commentService.addComment(commentBean);
 
