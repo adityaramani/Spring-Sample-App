@@ -16,7 +16,7 @@ public class CommentBean implements Serializable {
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
-    private UserDetails user;
+    private User user;
 
     @Id
     @GeneratedValue
@@ -37,11 +37,11 @@ public class CommentBean implements Serializable {
     private List<CommentBean> replies;
 
 
-    public UserDetails getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDetails user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
