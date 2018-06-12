@@ -149,7 +149,7 @@ display : none;
         <div class="comment-block">
 
         <div class="photo">
-            <div class="avatar" style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')" th:title = ${comment.user.username}></div>
+            <a th:href="${'/UserProfile/'+comment.user.userId}"> <div class="avatar" style="background-image: url('https://s3.amazonaws.com/uifaces/faces/twitter/felipenogs/128.jpg')" th:title = ${comment.user.username}> </div> </a>
         </div>
         <p th:if ="${comment.parentComment != null}" th:text = "  ${'Replying you ->'  +  comment.parentComment.comment}"> Replying to</p>
         <p class="comment-text" th:text="${comment.comment}"></p>

@@ -1,16 +1,28 @@
 package com.sample.twitter.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-    @Id
+
     private String username;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long id;
+
+    public Long getUserId() {
+        return id;
+    }
+
+    public void setUserId(Long userId) {
+        this.id = userId;
+    }
 
     public String getUsername() {
         return username;
@@ -21,7 +33,6 @@ public class User implements Serializable {
     }
 
     public User(){
-        username = "";
     }
     public User(String username) {
         this.username = username;

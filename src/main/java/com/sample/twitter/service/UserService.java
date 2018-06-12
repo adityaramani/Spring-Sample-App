@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -35,10 +36,25 @@ public class UserService {
     }
 
     @Transactional
-    public User getUserByName(String name) {
-        User userDetails = userDao.findOne(name);
+    public User getUserById(Long id) {
+        User userDetails = userDao.findOne(id);
 
         return userDetails;
     }
+
+    public Long getUserIdByUsername(String username){
+        //return userDao.findOne(username).getUserId();
+        User user = userDao.findByUsername(username);
+        Long id = user.getUserId();
+
+        if(Objects.isNull(id))
+            return -1L;
+        return id;
+    }
+
+    public String getUsernameByUserId(Long id){
+        return userDao.findById(id).getUsername();
+    }
+
 
 }

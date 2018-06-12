@@ -42,18 +42,26 @@ public class LoginController {
     public String loginSuccess( Model model){
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
-        User user;
-        user  = userService.getUserByName(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
-        try {
-            System.out.println(user.getUsername());
-        }
-        catch (NullPointerException e){
-            System.out.println("Null");
-        }
-        if (user == null)
-        {   System.out.println("adding new user");
 
-            user =  new User(bean.getEmail().substring(0,bean.getEmail().indexOf('@')));
+        if(!model.containsAttribute("loggedInUser"))
+            return "home/index";
+
+
+        User user;
+        long id = userService.getUserIdByUsername(bean.getEmail());
+        System.out.println(id);
+        if(id == -1)
+            user = null;
+        else
+            user = userService.getUserById(id);
+
+
+        if(user == null)
+        {
+            System.out.println("adding new user");
+
+            user = new User();
+            user.setUsername(bean.getEmail());
             userService.addUser(user);
         }
 
@@ -61,10 +69,10 @@ public class LoginController {
 
 
 
-        if(allComments.size() == 0){
-            System.out.println("Size is zero");
-            allComments.add(new CommentBean(user,"Please enter new comments"));
-        }
+//        if(allComments.size() == 0){
+//            System.out.println("Size is zero");
+//            allComments.add(new CommentBean(user,"Please enter new comments"));
+//        }
 
         model.addAttribute("allComments", allComments);
         return  "home/success";
@@ -76,22 +84,23 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
 
-        User userDetails =  new User(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
+        User userDetails = userService.getUserById(userService.getUserIdByUsername(bean.getEmail()));
 
         commentBean.setUser(userDetails);
-        commentBean.setParentComment(null);
+        //commentBean.setParentComment(null);
 
         commentService.addComment(commentBean);
 
         return loginSuccess(model);
     }
 
-    @RequestMapping(value = "/UserProfile/{username}", method = RequestMethod.GET)
-    public String getUserProfile(@PathVariable("username") String username, Model model){
+    @RequestMapping(value = "/UserProfile/{userid}", method = RequestMethod.GET)
+    public String getUserProfile(@PathVariable("userid") Long userId, Model model){
 
-        System.out.println(username);
+        System.out.println(userId);
+        String username = userService.getUsernameByUserId(userId);
         model.addAttribute("username", username);
-        User user = userService.getUserByName(username);
+        User user = userService.getUserById(userId);
         List<CommentBean> allCommentsByUser;
         if(user == null){
             allCommentsByUser = new ArrayList<>();
