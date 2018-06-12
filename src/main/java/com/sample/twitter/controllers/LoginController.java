@@ -42,29 +42,31 @@ public class LoginController {
     public String loginSuccess( Model model){
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
-        User user;
-        user  = userService.getUserByName(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
-        try {
-            System.out.println(user.getUsername());
-        }
-        catch (NullPointerException e){
-            System.out.println("Null");
-        }
-        if (user == null)
-        {   System.out.println("adding new user");
 
-            user =  new User(bean.getEmail().substring(0,bean.getEmail().indexOf('@')));
-            userService.addUser(user);
-        }
+        if(!model.containsAttribute("loggedInUser"))
+            return  "home/index";
+
+
+        User user ;
+            user = userService.getUserByName(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
+            if (user == null)
+            {
+                System.out.println("adding new user");
+
+                user =  new User(bean.getEmail().substring(0,bean.getEmail().indexOf('@')));
+                userService.addUser(user);
+            }
+
+
 
         List<CommentBean> allComments = commentService.getAllComments();
 
 
-
-        if(allComments.size() == 0){
-            System.out.println("Size is zero");
-            allComments.add(new CommentBean(user,"Please enter new comments"));
-        }
+//
+//        if(allComments.size() == 0){
+//            System.out.println("Size is zero");
+//            allComments.add(new CommentBean(user,"Please enter new comments"));
+//        }
 
         model.addAttribute("allComments", allComments);
         return  "home/success";
@@ -79,7 +81,7 @@ public class LoginController {
         User userDetails =  new User(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
 
         commentBean.setUser(userDetails);
-        commentBean.setParentComment(null);
+//        commentBean.setParentComment(null);
 
         commentService.addComment(commentBean);
 
