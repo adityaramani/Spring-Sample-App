@@ -9,11 +9,9 @@ import com.sample.twitter.provider.GoogleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -56,10 +54,13 @@ public class LoginController {
 
         List<CommentBean> allComments = commentService.getAllComments();
 
-//
-//        if(allComments.size() == 0){
-//            allComments.add(new CommentBean());
-//        }
+
+
+        if(allComments.size() == 0){
+            System.out.println("Size is zero");
+            allComments.add(new CommentBean(user,"Please enter new comments"));
+        }
+
         model.addAttribute("allComments", allComments);
         return  "home/success";
     }
@@ -80,6 +81,32 @@ public class LoginController {
         return loginSuccess(model);
     }
 
+    @RequestMapping(value = "/UserProfile/{username}", method = RequestMethod.GET)
+    public String getUserProfile(@RequestAttribute("username") String username, Model model){
+
+
+        User user = userService.getUserByName(username);
+        List<CommentBean> allCommentsByUser;
+        if(user == null){
+            allCommentsByUser = new ArrayList<>();
+            allCommentsByUser.add(new CommentBean(user,"This user does not exist"));
+        }
+
+        else{
+            allCommentsByUser = commentService.getAllCommentsByUser(user);
+
+            if(allCommentsByUser == null){
+                allCommentsByUser.add(new CommentBean(user,"This user has no comments"));
+            }
+            else{
+                model.addAttribute("username", username);
+                model.addAttribute("allCommentsByUser", allCommentsByUser);
+            }
+        }
+
+        return "UserProfile";
+
+    }
 
 
 }
