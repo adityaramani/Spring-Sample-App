@@ -36,6 +36,14 @@ public class CommentBean implements Serializable {
     @OneToMany(mappedBy = "parentComment")
     private List<CommentBean> replies;
 
+    public CommentBean() {
+        this.user = null;
+        this.comment = "Please Enter new Comments";
+        this.likes = 0;
+        this.parentComment =  null;
+        this.replies = null;
+    }
+
 
     public User getUser() {
         return user;

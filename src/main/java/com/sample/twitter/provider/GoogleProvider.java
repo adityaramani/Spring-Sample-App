@@ -26,7 +26,6 @@ public class GoogleProvider   {
 
         ConnectionRepository connectionRepository = socialLoginBean.getConnectionRepository();
         if (connectionRepository.findPrimaryConnection(Google.class) == null) {
-            System.out.println("In class == Null");
             return REDIRECT_CONNECT_GOOGLE;
         }
 

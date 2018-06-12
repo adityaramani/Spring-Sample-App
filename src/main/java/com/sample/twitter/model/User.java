@@ -21,7 +21,7 @@ public class User implements Serializable {
     }
 
     public User(){
-
+        username = "";
     }
     public User(String username) {
         this.username = username;

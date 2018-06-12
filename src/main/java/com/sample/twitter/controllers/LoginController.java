@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 public class LoginController {
 
@@ -43,17 +45,22 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
         User user;
-
-//        userService.listUsers();
-
-
         user = userService.getUserByName(bean.getEmail());
 
-        if (user.getUsername() != bean.getEmail())
-        {   user.setUsername(bean.getEmail()) ;
+        if (user == null)
+        {   System.out.println("adding new user");
+
+            user =  new User(bean.getEmail()) ;
             userService.addUser(user);
         }
 
+        List<CommentBean> allComments = commentService.getAllComments();
+
+//
+//        if(allComments.size() == 0){
+//            allComments.add(new CommentBean());
+//        }
+        model.addAttribute("allComments", allComments);
         return  "home/success";
     }
 
@@ -70,14 +77,9 @@ public class LoginController {
 
         commentService.addComment(commentBean);
 
-        return  "home/success";
+        return loginSuccess(model);
     }
 
 
-    @RequestMapping(value = "/retrieve/allComments", method = RequestMethod.GET)
-    @ResponseBody
-    public String getAllComments(){
-        return "";
-    }
 
 }

@@ -38,10 +38,6 @@ public class UserService {
     public User getUserByName(String name) {
         User userDetails = userDao.findOne(name);
 
-        if (userDetails == null) {
-            System.out.println("NULL");
-            userDetails = new User();
-        }
         return userDetails;
     }
 
