@@ -43,12 +43,17 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
         User user;
-        user = userService.getUserByName(bean.getEmail());
-
+        user  = userService.getUserByName(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
+        try {
+            System.out.println(user.getUsername());
+        }
+        catch (NullPointerException e){
+            System.out.println("Null");
+        }
         if (user == null)
         {   System.out.println("adding new user");
 
-            user =  new User(bean.getEmail()) ;
+            user =  new User(bean.getEmail().substring(0,bean.getEmail().indexOf('@')));
             userService.addUser(user);
         }
 
@@ -71,7 +76,7 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
 
-        User userDetails =  new User(bean.getEmail());
+        User userDetails =  new User(bean.getEmail().substring(0, bean.getEmail().indexOf('@')));
 
         commentBean.setUser(userDetails);
         commentBean.setParentComment(null);
@@ -82,9 +87,10 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/UserProfile/{username}", method = RequestMethod.GET)
-    public String getUserProfile(@RequestAttribute("username") String username, Model model){
+    public String getUserProfile(@PathVariable("username") String username, Model model){
 
-
+        System.out.println(username);
+        model.addAttribute("username", username);
         User user = userService.getUserByName(username);
         List<CommentBean> allCommentsByUser;
         if(user == null){
@@ -93,18 +99,19 @@ public class LoginController {
         }
 
         else{
+
             allCommentsByUser = commentService.getAllCommentsByUser(user);
 
             if(allCommentsByUser == null){
                 allCommentsByUser.add(new CommentBean(user,"This user has no comments"));
             }
             else{
-                model.addAttribute("username", username);
+
                 model.addAttribute("allCommentsByUser", allCommentsByUser);
             }
         }
 
-        return "UserProfile";
+        return "home/UserProfile";
 
     }
 

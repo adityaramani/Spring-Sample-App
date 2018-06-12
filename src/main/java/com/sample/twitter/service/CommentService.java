@@ -1,6 +1,7 @@
 package com.sample.twitter.service;
 
 import com.sample.twitter.model.CommentBean;
+import com.sample.twitter.model.User;
 import com.sample.twitter.repositories.CommentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,9 @@ public class CommentService{
 
     public List<CommentBean> getAllComments(){
         return this.commentDao.findAll();
+    }
+
+    public List<CommentBean> getAllCommentsByUser(User user){
+        return commentDao.findByUser(user);
     }
 }
