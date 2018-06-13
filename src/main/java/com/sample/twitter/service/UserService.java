@@ -38,17 +38,17 @@ public class UserService {
     @Transactional
     public User getUserById(Long id) {
         User userDetails = userDao.findOne(id);
-
         return userDetails;
     }
 
     public Long getUserIdByUsername(String username){
         //return userDao.findOne(username).getUserId();
         User user = userDao.findByUsername(username);
+
+        if(user == null)
+            return -1L;
         Long id = user.getUserId();
 
-        if(Objects.isNull(id))
-            return -1L;
         return id;
     }
 

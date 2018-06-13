@@ -1,5 +1,6 @@
 package com.sample.twitter.controllers;
 
+import com.sample.twitter.identifier.SessionIdentifier;
 import com.sample.twitter.service.CommentService;
 import com.sample.twitter.service.UserService;
 import com.sample.twitter.model.CommentBean;
@@ -45,6 +46,13 @@ public class LoginController {
 
         if(!model.containsAttribute("loggedInUser"))
             return "home/index";
+
+        SessionIdentifier sessionIdentifier = new SessionIdentifier();
+
+        String uuid = sessionIdentifier.getUserIdSource().getUserId();
+
+        System.out.println(uuid);
+
 
 
         User user;

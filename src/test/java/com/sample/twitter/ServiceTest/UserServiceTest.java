@@ -12,8 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.matchers.NotNull;
 
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.isNotNull;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
@@ -38,5 +37,34 @@ public class UserServiceTest {
         when(mockUserDao.findOne(anyLong())).thenReturn(new User());
 
         assertNotNull(userService.getUserById(1L));
+    }
+
+    @Test
+    public void getUserByIdWrongId(){
+        when(mockUserDao.findOne(anyLong())).thenReturn(null);
+
+        assertNull(userService.getUserById(1L));
+    }
+
+    @Test
+    public void getUsernameByUserIdNormalCase(){
+        when(mockUserDao.findById(1L)).thenReturn(new User("test"));
+
+        assertEquals("test", userService.getUsernameByUserId(1L));
+
+    }
+
+    @Test
+    public void getUserIDByUsernameNormalCase(){
+        when(mockUserDao.findByUsername(anyString())).thenReturn(new User());
+
+        assertEquals(userService.getUserIdByUsername("test"), null);
+    }
+
+    @Test
+    public void getUserIDByUsernameNullCase(){
+        when(mockUserDao.findByUsername(anyString())).thenReturn(null);
+
+        assertEquals(userService.getUserIdByUsername("test"), Long.valueOf(-1L));
     }
 }
