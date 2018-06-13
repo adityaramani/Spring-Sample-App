@@ -33,7 +33,7 @@ public class UserRepositoryTest {
 
 
     @Test
-    public void insertNormalcase() throws Exception{
+    public void insertNormalCase() throws Exception{
 
         entityManager.persistAndFlush(new User("test"));
         User user = userRepository.findByUsername("test");
@@ -41,4 +41,59 @@ public class UserRepositoryTest {
         assertNotNull(user);
         assertEquals(user.getUsername(), "test");
     }
+
+    @Test
+    public void insertNullCase() throws Exception{
+        User user = userRepository.findByUsername("test");
+        assertNull(user);
+    }
+
+    @Test
+    public void findOneNormalCase() throws Exception{
+
+        User user = new User("test");
+        user.setUserId(1L);
+
+        entityManager.merge(user);
+
+        User test = userRepository.findOne(1L);
+
+        assertNotNull(test);
+        assertEquals(test.getUserId(), Long.valueOf(1L));
+    }
+
+    @Test
+    public void findOneNullCase() {
+        User test = userRepository.findOne(1L);
+
+        assertNull(test);
+    }
+
+    @Test
+    public void findOneWrongId(){
+        User user = new User("test");
+        user.setUserId(1L);
+
+        entityManager.merge(user);
+
+        User test = userRepository.findOne(2L);
+
+        assertNull(test);
+
+    }
+
+    @Test
+    public void findByUsernameNormalCase(){
+        User user = new User("test");
+
+        entityManager.merge(user);
+
+        User test = userRepository.findByUsername("test");
+
+        assertNotNull(test);
+        assertEquals(test.getUsername(), "test");
+    }
+    
+
+
 }
