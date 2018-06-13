@@ -6,6 +6,7 @@ import com.sample.twitter.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,10 +16,10 @@ public class CommentService{
     CommentRepository commentRepository;
 
 
-    public void addComment(CommentBean commentBean){
+    public CommentBean addComment(CommentBean commentBean){
 
         this.commentRepository.save(commentBean);
-
+        return  commentBean;
     }
 
 
@@ -28,7 +29,9 @@ public class CommentService{
     }
 
     public List<CommentBean> getAllComments(){
-        return this.commentRepository.findAll();
+        List<CommentBean> allComments =  this.commentRepository.findAll();
+
+        return allComments;
     }
 
     public List<CommentBean> getAllCommentsByUser(User user){
