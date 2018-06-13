@@ -2,7 +2,7 @@ package com.sample.twitter.service;
 
 import com.sample.twitter.model.CommentBean;
 import com.sample.twitter.model.User;
-import com.sample.twitter.repositories.CommentDao;
+import com.sample.twitter.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +12,26 @@ import java.util.List;
 public class CommentService{
 
     @Autowired
-    CommentDao commentDao;
+    CommentRepository commentRepository;
 
 
     public void addComment(CommentBean commentBean){
 
-        this.commentDao.save(commentBean);
+        this.commentRepository.save(commentBean);
 
     }
 
 
     public CommentBean getCommentById(long id) {
 
-        return this.commentDao.findOne(id);
+        return this.commentRepository.findOne(id);
     }
 
     public List<CommentBean> getAllComments(){
-        return this.commentDao.findAll();
+        return this.commentRepository.findAll();
     }
 
     public List<CommentBean> getAllCommentsByUser(User user){
-        return commentDao.findByUser(user);
+        return commentRepository.findByUser(user);
     }
 }

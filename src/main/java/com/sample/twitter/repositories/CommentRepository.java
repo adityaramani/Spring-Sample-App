@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CommentDao extends JpaRepository<CommentBean, Long>{
+public interface CommentRepository extends JpaRepository<CommentBean, Long>{
 
 
     /*
