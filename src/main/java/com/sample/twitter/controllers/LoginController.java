@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class LoginController {
@@ -34,6 +37,12 @@ public class LoginController {
     }
     @RequestMapping("/")
     public String index(){
+        RequestAttributes request = RequestContextHolder.currentRequestAttributes();
+        System.out.println(request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION) );
+
+        if (request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION) != null)
+                return "redirect:/success";
+
         return  "home/index";
 
     }
@@ -43,10 +52,12 @@ public class LoginController {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
 
-        if(!model.containsAttribute("loggedInUser"))
+        RequestAttributes request = RequestContextHolder.currentRequestAttributes();
+
+        if(request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION)  == null )
             return "home/index";
 
-
+        request.setAttribute("_socialUserUUID" , UUID.randomUUID().toString(), RequestAttributes.SCOPE_SESSION);
         User user;
         long id = userService.getUserIdByUsername(bean.getEmail());
         System.out.println(id);
@@ -83,6 +94,10 @@ public class LoginController {
     public String newComment(@ModelAttribute("commentForm")CommentBean commentBean, Model model) {
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
+
+        System.out.println(bean.getEmail());
+        System.out.println(userService.getUserIdByUsername(bean.getEmail()));
+
 
         User userDetails = userService.getUserById(userService.getUserIdByUsername(bean.getEmail()));
 

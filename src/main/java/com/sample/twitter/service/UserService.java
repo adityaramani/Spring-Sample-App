@@ -1,7 +1,7 @@
 package com.sample.twitter.service;
 
 import com.sample.twitter.model.User;
-import com.sample.twitter.repositories.UserDao;
+import com.sample.twitter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import java.util.Objects;
 public class UserService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Transactional
     public void addUser(User p) {
-       userDao.save(p);
+       userRepository.save(p);
     }
 
     public void updateUser(User p) {
@@ -27,7 +27,7 @@ public class UserService {
 
     @Transactional
     public List<User> listUsers(){
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     public void removeUser(String name) {
@@ -37,23 +37,22 @@ public class UserService {
 
     @Transactional
     public User getUserById(Long id) {
-        User userDetails = userDao.findOne(id);
+        User userDetails = userRepository.findOne(id);
 
         return userDetails;
     }
 
     public Long getUserIdByUsername(String username){
-        //return userDao.findOne(username).getUserId();
-        User user = userDao.findByUsername(username);
-        Long id = user.getUserId();
+        //return userRepository.findOne(username).getUserId();
+        User user = userRepository.findByUsername(username);
 
-        if(Objects.isNull(id))
+        if(Objects.isNull(user))
             return -1L;
-        return id;
+        return  user.getUserId();
     }
 
     public String getUsernameByUserId(Long id){
-        return userDao.findById(id).getUsername();
+        return userRepository.findById(id).getUsername();
     }
 
 
