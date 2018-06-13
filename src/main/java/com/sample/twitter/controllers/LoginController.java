@@ -35,13 +35,13 @@ public class LoginController {
     public String loginToGoogle(Model model) {
         return googleProvider.getGoogleUserData(model, new UserBean());
     }
+
     @RequestMapping("/")
     public String index(){
         RequestAttributes request = RequestContextHolder.currentRequestAttributes();
-        System.out.println(request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION) );
 
         if (request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION) != null)
-                return "redirect:/success";
+            return "redirect:/success";
 
         return  "home/index";
 
@@ -49,13 +49,17 @@ public class LoginController {
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String loginSuccess( Model model){
+        RequestAttributes request = RequestContextHolder.currentRequestAttributes();
+
+        if(request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION)  == null  )
+            return "home/index";
+
+        System.out.println(model.toString());
+
         UserBean bean = new UserBean();
         googleProvider.getGoogleUserData(model, bean);
 
-        RequestAttributes request = RequestContextHolder.currentRequestAttributes();
-
-        if(request.getAttribute("_socialUserUUID" , RequestAttributes.SCOPE_SESSION)  == null )
-            return "home/index";
+        System.out.println(model.toString());
 
         request.setAttribute("_socialUserUUID" , UUID.randomUUID().toString(), RequestAttributes.SCOPE_SESSION);
         User user;
