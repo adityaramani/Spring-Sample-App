@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
 
-public class CommentRepositoryTest {
+public class CommentServiceTest {
 
 	@Mock
 	private CommentRepository mockCommentrepo;

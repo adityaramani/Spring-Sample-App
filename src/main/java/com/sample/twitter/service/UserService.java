@@ -1,7 +1,7 @@
 package com.sample.twitter.service;
 
 import com.sample.twitter.model.User;
-import com.sample.twitter.repositories.UserDao;
+import com.sample.twitter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
 public class UserService {
 
     @Autowired
-    UserDao userDao;
+    UserRepository userDao;
 
     @Transactional
     public void addUser(User p) {
